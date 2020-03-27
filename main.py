@@ -25,6 +25,8 @@ def main():
 				pygame.quit()
 				quit()
 
+			#update_board(board_array)
+
 			update_gui(window, board_array)
 			pygame.display.update()
 
@@ -38,6 +40,7 @@ def init_gui():
 
 
 def update_board(board_array):
+	# You will need other functions to help this function work!!
 	pass
 
 
