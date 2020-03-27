@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # CONSTANTS
 WIN_DIMENSIONS = (600, 600) # width, height
@@ -6,13 +7,13 @@ BACKGROUND_COLOUR = (255, 255, 255)
 GRID_SIZE = 20
 CELL_WIDTH = int(WIN_DIMENSIONS[0] / GRID_SIZE)
 CELL_HEIGHT = int(WIN_DIMENSIONS[1] / GRID_SIZE)
+INITIAL_CELL_COUNT = 10
 # ^CONSTANTS
 
 
 def main():
 
-	board_array = [[0 for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
-	board_array[4][4] = 1
+	board_array = init_board_array()
 
 	window = init_gui()
 
@@ -38,6 +39,15 @@ def init_gui():
 
 def update_board(board_array):
 	pass
+
+
+
+def init_board_array():
+	board_array = [[0 for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
+	for cell in range(INITIAL_CELL_COUNT):
+		board_array[random.randint(0, GRID_SIZE - 1)][random.randint(0, GRID_SIZE - 1)] = 1
+
+	return board_array
 
 
 def update_gui(window, board_array):
