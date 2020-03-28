@@ -8,6 +8,9 @@ GRID_SIZE = 20
 CELL_WIDTH = int(WIN_DIMENSIONS[0] / GRID_SIZE)
 CELL_HEIGHT = int(WIN_DIMENSIONS[1] / GRID_SIZE)
 INITIAL_CELL_COUNT = 10
+UP, DOWN, LEFT, RIGHT = "up", "down", "left", "right"
+DIRECTIONS = (UP, DOWN, LEFT, RIGHT, f"{UP}-{LEFT}", 
+	f"{UP}-{RIGHT}", f"{DOWN}-{LEFT}", f"{DOWN}-{RIGHT}")
 # ^CONSTANTS
 
 
@@ -25,7 +28,7 @@ def main():
 				pygame.quit()
 				quit()
 
-			#update_board(board_array)
+			update_board(board_array)
 
 			update_gui(window, board_array)
 			pygame.display.update()
@@ -40,8 +43,51 @@ def init_gui():
 
 
 def update_board(board_array):
-	# You will need other functions to help this function work!!
+	print(get_cell_neighbours([5, 5]))
 	pass
+
+
+def get_cell_neighbours(cell_index_array):
+	""" Returns a 2D tuple of the neighbours indexes.
+
+			Parameters: 
+				cell_index_array ([int, int]): A tuple in format (row, column) corresponding 
+				to the cell position in the board_array function.
+
+			Returns:
+				([[int, int]...]): tuple containing the indexes of neighbouring cells
+	"""
+	neighbours_array = []
+
+	for direction in DIRECTIONS:
+		neighbour = index_at_direction(cell_index_array, direction)
+		if neighbour != None:
+			neighbours_array += [neighbour,]
+
+	return neighbours_array
+
+
+def index_at_direction(cell_index_array, direction):
+	""" Returns the index of the neighbouring cell in the given direction"""
+	if (
+		cell_index_array[1] == GRID_SIZE - 1 and RIGHT in direction or
+		cell_index_array[1] == 0 and LEFT in direction or
+		cell_index_array[0] == 0 and UP in direction or
+		cell_index_array[0] == GRID_SIZE - 1 and DOWN in direction
+		):
+		return None
+
+
+	if RIGHT in direction: 
+		cell_index_array[1] += 1
+	elif LEFT in direction:
+		cell_index_array[1] -= 1
+	if UP in direction:
+		cell_index_array[0] -= 1
+	elif DOWN in direction:
+		cell_index_array[0] += 1
+
+	return cell_index_array
 
 
 
