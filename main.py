@@ -43,7 +43,7 @@ def init_gui():
 
 
 def update_board(board_array):
-	print(get_cell_neighbours([5, 5]))
+	get_cell_neighbours([5, 5])
 
 
 
@@ -58,7 +58,6 @@ def get_cell_neighbours(cell_index_array, direction = 0):
 				([[int, int]...]): tuple containing the indexes of neighbouring cells
 	"""
 	neighbour = index_at_direction(cell_index_array, DIRECTIONS[direction])
-	print(neighbour)
 
 	if neighbour is not None and direction != 7:
 		return [neighbour,] + get_cell_neighbours(cell_index_array, direction + 1)
@@ -70,25 +69,27 @@ def get_cell_neighbours(cell_index_array, direction = 0):
 
 def index_at_direction(cell_index_array, direction):
 	""" Returns the index of the neighbouring cell in the given direction"""
+
+	index_array = cell_index_array.copy()
 	if (
-		(cell_index_array[1] == GRID_SIZE - 1 and RIGHT in direction) or
-		(cell_index_array[1] == 0 and LEFT in direction) or
-		(cell_index_array[0] == 0 and UP in direction) or
-		(cell_index_array[0] == GRID_SIZE - 1 and DOWN in direction)
+		(index_array[1] == GRID_SIZE - 1 and RIGHT in direction) or
+		(index_array[1] == 0 and LEFT in direction) or
+		(index_array[0] == 0 and UP in direction) or
+		(index_array[0] == GRID_SIZE - 1 and DOWN in direction)
 		):
 		return None
 
 	if RIGHT in direction: 
-		cell_index_array[1] += 1
+		index_array[1] += 1
 	elif LEFT in direction:
-		cell_index_array[1] -= 1
+		index_array[1] -= 1
 	if UP in direction:
-		cell_index_array[0] -= 1
+		index_array[0] -= 1
 	elif DOWN in direction:
-		cell_index_array[0] += 1
+		index_array[0] += 1
 
 
-	return cell_index_array
+	return index_array
 
 
 
