@@ -5,10 +5,10 @@ import random
 WIN_DIMENSIONS = (600, 600) # width, height
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-GRID_SIZE = 40
+GRID_SIZE = 5
+INITIAL_CELL_COUNT = 15
 CELL_WIDTH = int(WIN_DIMENSIONS[0] / GRID_SIZE)
 CELL_HEIGHT = int(WIN_DIMENSIONS[1] / GRID_SIZE)
-INITIAL_CELL_COUNT = 10
 UP, DOWN, LEFT, RIGHT = "up", "down", "left", "right"
 DIRECTIONS = (UP, DOWN, LEFT, RIGHT, f"{UP}-{LEFT}", 
 	f"{UP}-{RIGHT}", f"{DOWN}-{LEFT}", f"{DOWN}-{RIGHT}")
@@ -21,6 +21,8 @@ def main():
 
 	window = init_gui()
 
+	time = pygame.time.Clock()
+
 	game_running = True
 	while game_running:
 		for event in pygame.event.get():
@@ -29,10 +31,11 @@ def main():
 				pygame.quit()
 				quit()
 
-			update_board(board_array)
+		board_array = update_board(board_array)
+		window = update_gui(window, board_array)
+		pygame.display.update()
+		time.tick(5)
 
-			update_gui(window, board_array)
-			pygame.display.update()
 
 
 
@@ -45,7 +48,23 @@ def init_gui():
 
 def update_board(board_array):
 	
-	print(number_of_neighbours_alive(board_array, get_cell_neighbours([5, 5])))
+	for row_num, row in enumerate(board_array):
+		for column_num, column in enumerate(row):
+			neighbours = get_cell_neighbours([row_num, column_num])
+			num_live_neighbours = number_of_neighbours_alive(board_array, neighbours)
+
+			if num_live_neighbours > 3 or num_live_neighbours < 2:
+				board_array[row_num][column_num] = 0
+
+			elif num_live_neighbours == 3:
+				board_array[row_num][column_num] = 1
+
+	print()
+	for row in board_array:
+
+		print(row)
+	print()
+	return board_array
 
 
 def number_of_neighbours_alive(board_array, cell_neighbours):
@@ -66,10 +85,12 @@ def get_cell_neighbours(cell_index_array, direction = 0):
 
 	if neighbour is not None and direction != 7:
 		return [neighbour,] + get_cell_neighbours(cell_index_array, direction + 1)
-	elif direction == 7:
+	elif neighbour is not None and direction == 7:
 		return [neighbour]
-	else:
+	elif neighbour is not None:
 		return get_cell_neighbours(cell_index_array, direction + 1)
+	else:
+		return []
 
 
 def index_at_direction(cell_index_array, direction):
@@ -109,8 +130,12 @@ def init_board_array():
 def update_gui(window, board_array):
 	for row_index, row_value in enumerate(board_array):
 		for column_index, column_value in enumerate(row_value):
-			if column_value == 1:
-				pygame.draw.rect(window, WHITE, [column_index * CELL_WIDTH, row_index * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT])
+			if board_array[row_index][column_index] == 1:
+				cell_colour = WHITE
+			elif board_array[row_index][column_index] == 0:
+				cell_colour = BLACK
+			pygame.draw.rect(window, cell_colour, [column_index * CELL_WIDTH, row_index * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT])
+	return window
 
 			
 
