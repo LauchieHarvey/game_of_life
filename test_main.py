@@ -20,5 +20,9 @@ class Test_non_void_functions(unittest.TestCase):
 		self.assertIsNone(index_at_direction([3, GRID_SIZE - 1], RIGHT))
 
 
+	def test_get_cell_neighbours(self):
+		self.assertEqual(get_cell_neighbours([3,3]), [[2,3], [4,3], [3,2], [3,4], [2,2], [2,4], [4,2], [4,4]])
+
+
 if __name__ == "__main__":
 	unittest.main()

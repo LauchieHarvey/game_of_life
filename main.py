@@ -44,8 +44,12 @@ def init_gui():
 
 
 def update_board(board_array):
-	get_cell_neighbours([5, 5])
+	
+	print(number_of_neighbours_alive(board_array, get_cell_neighbours([5, 5])))
 
+
+def number_of_neighbours_alive(board_array, cell_neighbours):
+	return sum(1 for cell in cell_neighbours if board_array[cell[0]][cell[1]] == 1)
 
 
 def get_cell_neighbours(cell_index_array, direction = 0):
