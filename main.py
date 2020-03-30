@@ -5,8 +5,8 @@ import random
 WIN_DIMENSIONS = (600, 600) # width, height
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-GRID_SIZE = 5
-INITIAL_CELL_COUNT = 15
+GRID_SIZE = 20
+INITIAL_CELL_COUNT = 30
 CELL_WIDTH = int(WIN_DIMENSIONS[0] / GRID_SIZE)
 CELL_HEIGHT = int(WIN_DIMENSIONS[1] / GRID_SIZE)
 UP, DOWN, LEFT, RIGHT = "up", "down", "left", "right"
@@ -17,11 +17,16 @@ DIRECTIONS = (UP, DOWN, LEFT, RIGHT, f"{UP}-{LEFT}",
 
 def main():
 
+	input("Left click to turn a cell on, right click to turn it off.\n\
+	 When you are ready to run the simulation press space.\nNow press Enter to start :)")
+
 	board_array = init_board_array()
 
 	window = init_gui()
 
 	time = pygame.time.Clock()
+
+	key_pressed = False
 
 	game_running = True
 	while game_running:
@@ -30,11 +35,18 @@ def main():
 				running = False
 				pygame.quit()
 				quit()
+			elif event.type == pygame.KEYDOWN:
+				key_pressed = True
+			elif event.type == pygame.MOUSEBUTTONDOWN:
+				mouse_pos = pygame.mouse.get_pos()
+				board_array = change_cell_status(board_array, mouse_pos)
 
-		board_array = update_board(board_array)
+		if 	key_pressed:
+			board_array = update_board(board_array)
+
 		window = update_gui(window, board_array)
 		pygame.display.update()
-		time.tick(5)
+		time.tick(1)
 
 
 
@@ -44,6 +56,19 @@ def init_gui():
 	pygame.display.set_caption("Game of Life :)")
 	window.fill(BLACK)
 	return window
+
+
+def change_cell_status(board_array, mouse_pos):
+	# When the user clicks on a cell this function either kills or brings it to life.
+	mouse_row = mouse_pos[1] // CELL_WIDTH
+	mouse_column = mouse_pos[0] // CELL_HEIGHT
+	if board_array[mouse_row][mouse_column] == 1:
+		board_array[mouse_row][mouse_column] = 0
+	else:
+		board_array[mouse_row][mouse_column] = 1
+
+	return board_array
+
 
 
 def update_board(board_array):
@@ -67,7 +92,7 @@ def update_board(board_array):
 	return board_array
 
 
-def number_of_neighbours_alive(board_array, cell_neighbours): #IMPLEMENT TESTS FOR THIS
+def number_of_neighbours_alive(board_array, cell_neighbours):
 	return sum(1 for cell in cell_neighbours if board_array[cell[0]][cell[1]] == 1)
 
 
