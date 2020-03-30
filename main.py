@@ -5,7 +5,7 @@ import random
 WIN_DIMENSIONS = (600, 600) # width, height
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-GRID_SIZE = 10
+GRID_SIZE = 30
 INITIAL_CELL_COUNT = 0
 CELL_WIDTH = int(WIN_DIMENSIONS[0] / GRID_SIZE)
 CELL_HEIGHT = int(WIN_DIMENSIONS[1] / GRID_SIZE)
@@ -26,10 +26,11 @@ When you are ready to run the simulation press space.\nNow press Enter to start 
 
 	time = pygame.time.Clock()
 
-	key_pressed = False
+	
 
 	game_running = True
 	while game_running:
+		key_pressed = False
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False
@@ -73,6 +74,7 @@ def change_cell_status(board_array, mouse_pos):
 
 
 def update_board(board_array):
+	new_board_array = [row[:] for row in board_array]
 	
 	for row_num, row in enumerate(board_array):
 		for column_num, column in enumerate(row):
@@ -80,13 +82,18 @@ def update_board(board_array):
 			num_live_neighbours = number_of_neighbours_alive(board_array, neighbours)
 
 			if num_live_neighbours not in [3, 2]:
-				board_array[row_num][column_num] = 0
+				new_board_array[row_num][column_num] = 0
 
 			elif num_live_neighbours == 3:
-				board_array[row_num][column_num] = 1
+				new_board_array[row_num][column_num] = 1
 
-	print_board_array(board_array)
-	return board_array
+		print("Old board at", row_num)
+		print_board_array(board_array)
+		print("New board at", row_num)
+		print_board_array(new_board_array)
+
+
+	return new_board_array
 
 
 def number_of_neighbours_alive(board_array, cell_neighbours):
@@ -103,12 +110,12 @@ def get_cell_neighbours(cell_index_array): #IMPLEMENT TESTS FOR THIS
 			Returns:
 				([[int, int]...]): tuple containing the indexes of neighbouring cells
 	"""
-	neighbour_queue = []
+	neighbour_list = []
 	for direction in DIRECTIONS:
 		neighbour = index_at_direction(cell_index_array, direction)
 		if neighbour != None:
-			neighbour_queue.append(neighbour)
-	return neighbour_queue
+			neighbour_list.append(neighbour)
+	return neighbour_list
 
 
 
