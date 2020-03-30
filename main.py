@@ -67,11 +67,11 @@ def update_board(board_array):
 	return board_array
 
 
-def number_of_neighbours_alive(board_array, cell_neighbours):
+def number_of_neighbours_alive(board_array, cell_neighbours): #IMPLEMENT TESTS FOR THIS
 	return sum(1 for cell in cell_neighbours if board_array[cell[0]][cell[1]] == 1)
 
 
-def get_cell_neighbours(cell_index_array, direction = 0):
+def get_cell_neighbours(cell_index_array, direction = 0): #IMPLEMENT TESTS FOR THIS
 	""" Returns a 2D tuple of the neighbours indexes.
 
 			Parameters: 

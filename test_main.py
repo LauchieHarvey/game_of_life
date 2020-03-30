@@ -24,5 +24,29 @@ class Test_non_void_functions(unittest.TestCase):
 		self.assertEqual(get_cell_neighbours([3,3]), [[2,3], [4,3], [3,2], [3,4], [2,2], [2,4], [4,2], [4,4]])
 
 
+	def test_number_of_neighbours_alive(self):
+		board_array = [
+		[0, 0, 1, 0, 1, 0, 0, 0, 0, 0],
+		[1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+		]
+		cell_neighbours1 = [[0, 4], [2, 3], [1, 4], [1, 2], [0, 3], [0, 2], [2, 4], [2, 2]]
+		cell_neighbours2 = [[0, 1], [1, 1], [1, 0]]
+		cell_neighbours3 = [[0, 0], [0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1], [2, 2]]
+
+		# cell is board_array[1, 3]
+		self.assertEqual(number_of_neighbours_alive(board_array, cell_neighbours1), 4)
+		self.assertEqual(number_of_neighbours_alive(board_array, cell_neighbours2), 1)
+		self.assertEqual(number_of_neighbours_alive(board_array, cell_neighbours3), 3)
+
+
+
 if __name__ == "__main__":
 	unittest.main()
