@@ -5,8 +5,8 @@ import random
 WIN_DIMENSIONS = (600, 600) # width, height
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-GRID_SIZE = 20
-INITIAL_CELL_COUNT = 30
+GRID_SIZE = 10
+INITIAL_CELL_COUNT = 0
 CELL_WIDTH = int(WIN_DIMENSIONS[0] / GRID_SIZE)
 CELL_HEIGHT = int(WIN_DIMENSIONS[1] / GRID_SIZE)
 UP, DOWN, LEFT, RIGHT = "up", "down", "left", "right"
@@ -18,7 +18,7 @@ DIRECTIONS = (UP, DOWN, LEFT, RIGHT, f"{UP}-{LEFT}",
 def main():
 
 	input("Left click to turn a cell on, right click to turn it off.\n\
-	 When you are ready to run the simulation press space.\nNow press Enter to start :)")
+When you are ready to run the simulation press space.\nNow press Enter to start :)")
 
 	board_array = init_board_array()
 
@@ -67,6 +67,7 @@ def change_cell_status(board_array, mouse_pos):
 	else:
 		board_array[mouse_row][mouse_column] = 1
 
+	print_board_array(board_array)
 	return board_array
 
 
@@ -78,17 +79,13 @@ def update_board(board_array):
 			neighbours = get_cell_neighbours([row_num, column_num])
 			num_live_neighbours = number_of_neighbours_alive(board_array, neighbours)
 
-			if num_live_neighbours > 3 or num_live_neighbours < 2:
+			if num_live_neighbours not in [3, 2]:
 				board_array[row_num][column_num] = 0
 
 			elif num_live_neighbours == 3:
 				board_array[row_num][column_num] = 1
 
-	print()
-	for row in board_array:
-
-		print(row)
-	print()
+	print_board_array(board_array)
 	return board_array
 
 
@@ -162,11 +159,12 @@ def update_gui(window, board_array):
 			pygame.draw.rect(window, cell_colour, [column_index * CELL_WIDTH, row_index * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT])
 	return window
 
-			
 
-
-
-
+def print_board_array(board_array):
+	print()
+	for row in board_array:
+		print(row)
+	print()
 
 
 if __name__ == "__main__":
