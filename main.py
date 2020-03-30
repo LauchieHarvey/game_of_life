@@ -93,8 +93,8 @@ def number_of_neighbours_alive(board_array, cell_neighbours):
 	return sum(1 for cell in cell_neighbours if board_array[cell[0]][cell[1]] == 1)
 
 
-def get_cell_neighbours(cell_index_array, direction = 0): #IMPLEMENT TESTS FOR THIS
-	""" Returns a 2D tuple of the neighbours indexes.
+def get_cell_neighbours(cell_index_array): #IMPLEMENT TESTS FOR THIS
+	""" Returns a 2D array of the neighbours indexes.
 
 			Parameters: 
 				cell_index_array ([int, int]): A tuple in format (row, column) corresponding 
@@ -103,16 +103,14 @@ def get_cell_neighbours(cell_index_array, direction = 0): #IMPLEMENT TESTS FOR T
 			Returns:
 				([[int, int]...]): tuple containing the indexes of neighbouring cells
 	"""
-	neighbour = index_at_direction(cell_index_array, DIRECTIONS[direction])
+	neighbour_queue = []
+	for direction in DIRECTIONS:
+		neighbour = index_at_direction(cell_index_array, direction)
+		if neighbour != None:
+			neighbour_queue.append(neighbour)
+	return neighbour_queue
 
-	if neighbour is not None and direction != 7:
-		return [neighbour,] + get_cell_neighbours(cell_index_array, direction + 1)
-	elif neighbour is not None and direction == 7:
-		return [neighbour]
-	elif neighbour is not None:
-		return get_cell_neighbours(cell_index_array, direction + 1)
-	else:
-		return []
+
 
 
 def index_at_direction(cell_index_array, direction):

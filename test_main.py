@@ -21,8 +21,9 @@ class Test_non_void_functions(unittest.TestCase):
 
 
 	def test_get_cell_neighbours(self):
-		self.assertEqual(get_cell_neighbours([3,3]), [[2,3], [4,3], [3,2], [3,4], [2,2], [2,4], [4,2], [4,4]])
-		self.assertEqual(get_cell_neighbours([0, 0]), [[1, 0], [1, 1], [0, 1]])
+		self.assertEqual(get_cell_neighbours([3,3]), [[2, 3], [4, 3], [3, 2], [3, 4], [2, 2], [2, 4], [4, 2], [4, 4]])
+		self.assertEqual(get_cell_neighbours([0, 0]), [[1, 0], [0, 1], [1, 1]])
+		self.assertEqual(get_cell_neighbours([5, 5]), [[4, 5], [6, 5], [5, 4], [5, 6], [4, 4], [4, 6], [6, 4], [6, 6]])
 
 
 
