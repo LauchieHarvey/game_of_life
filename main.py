@@ -3,7 +3,7 @@ import random
 
 # CONSTANTS
 WIN_DIMENSIONS = (600, 600) # width, height
-WHITE = (255, 255, 255)
+WHITE = (220, 220, 220)
 BLACK = (0, 0, 0)
 GRID_SIZE = 30
 INITIAL_CELL_COUNT = 0
@@ -70,7 +70,6 @@ def change_cell_status(board_array, mouse_pos):
 	else:
 		board_array[mouse_row][mouse_column] = 1
 
-	print_board_array(board_array)
 	return board_array
 
 
@@ -88,12 +87,6 @@ def update_board(board_array):
 
 			elif num_live_neighbours == 3:
 				new_board_array[row_num][column_num] = 1
-
-		print("Old board at", row_num)
-		print_board_array(board_array)
-		print("New board at", row_num)
-		print_board_array(new_board_array)
-
 
 	return new_board_array
 
@@ -168,14 +161,10 @@ def update_gui(window, board_array):
 	for row_number in range(GRID_SIZE):
 		pygame.draw.line(window, WHITE, (CELL_WIDTH * row_number, 0), (CELL_WIDTH * row_number, WIN_DIMENSIONS[1]), 1)
 		pygame.draw.line(window, WHITE, (0, row_number * CELL_HEIGHT), (WIN_DIMENSIONS[0], row_number * CELL_HEIGHT), 1)
+
+	pygame.draw.line(window, WHITE, (WIN_DIMENSIONS[0] - 1, 0), (WIN_DIMENSIONS[0] - 1, WIN_DIMENSIONS[1]), 2)
+	pygame.draw.line(window, WHITE, (0, WIN_DIMENSIONS[1] - 1), (WIN_DIMENSIONS[0], WIN_DIMENSIONS[1] - 1), 2)
 	return window
-
-
-def print_board_array(board_array):
-	print()
-	for row in board_array:
-		print(row)
-	print()
 
 
 if __name__ == "__main__":
