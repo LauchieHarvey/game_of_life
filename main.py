@@ -26,8 +26,7 @@ When you are ready to run the simulation press space.\nNow press Enter to start 
 
 	time = pygame.time.Clock()
 
-	
-
+	paused = True
 	game_running = True
 	while game_running:
 		key_pressed = False
@@ -37,17 +36,23 @@ When you are ready to run the simulation press space.\nNow press Enter to start 
 				pygame.quit()
 				quit()
 			elif event.type == pygame.KEYDOWN:
-				key_pressed = True
+				if event.key == pygame.K_SPACE and not paused:
+					paused = True
+				elif event.key == pygame.K_SPACE and paused:
+					paused = False
+				if paused and event.key == pygame.K_n:
+					board_array = update_board(board_array)
+
 			elif event.type == pygame.MOUSEBUTTONDOWN:
 				mouse_pos = pygame.mouse.get_pos()
 				board_array = change_cell_status(board_array, mouse_pos)
 
-		if 	key_pressed:
+		if not paused:
 			board_array = update_board(board_array)
 
 		window = update_gui(window, board_array)
 		pygame.display.update()
-		time.tick(1)
+		time.tick(5)
 
 
 
