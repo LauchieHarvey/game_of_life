@@ -53,9 +53,11 @@ When you are ready to run the simulation press space.\nNow press Enter to start 
 
 
 def init_gui():
+
 	window = pygame.display.set_mode(WIN_DIMENSIONS)
 	pygame.display.set_caption("Game of Life :)")
 	window.fill(BLACK)
+
 	return window
 
 
@@ -162,6 +164,10 @@ def update_gui(window, board_array):
 			elif board_array[row_index][column_index] == 0:
 				cell_colour = BLACK
 			pygame.draw.rect(window, cell_colour, [column_index * CELL_WIDTH, row_index * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT])
+
+	for row_number in range(GRID_SIZE):
+		pygame.draw.line(window, WHITE, (CELL_WIDTH * row_number, 0), (CELL_WIDTH * row_number, WIN_DIMENSIONS[1]), 1)
+		pygame.draw.line(window, WHITE, (0, row_number * CELL_HEIGHT), (WIN_DIMENSIONS[0], row_number * CELL_HEIGHT), 1)
 	return window
 
 
