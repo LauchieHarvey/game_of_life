@@ -2,10 +2,10 @@ import pygame
 import random
 
 # CONSTANTS
-WIN_DIMENSIONS = (600, 600) # width, height
-WHITE = (220, 220, 220)
+WIN_DIMENSIONS = (800, 800) # width, height
+WHITE = (140, 140, 140)
 BLACK = (0, 0, 0)
-GRID_SIZE = 30
+GRID_SIZE = 50
 INITIAL_CELL_COUNT = 0
 CELL_WIDTH = int(WIN_DIMENSIONS[0] / GRID_SIZE)
 CELL_HEIGHT = int(WIN_DIMENSIONS[1] / GRID_SIZE)
@@ -17,8 +17,10 @@ DIRECTIONS = (UP, DOWN, LEFT, RIGHT, f"{UP}-{LEFT}",
 
 def main():
 
-	input("Left click to turn a cell on, right click to turn it off.\n\
-When you are ready to run the simulation press space.\nNow press Enter to start :)")
+	input("Left click in a squre to turn the cell on or off.\n\
+When you are ready to run the simulation press space.\nYou can press space at any time to pause\
+\nIf you are paused, you can press the 'n' key to skip one step forward.\n\
+Now press Enter to start :)")
 
 	board_array = init_board_array()
 
