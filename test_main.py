@@ -24,6 +24,7 @@ class Test_non_void_functions(unittest.TestCase):
 		self.assertEqual(get_cell_neighbours([3,3]), [[2, 3], [4, 3], [3, 2], [3, 4], [2, 2], [2, 4], [4, 2], [4, 4]])
 		self.assertEqual(get_cell_neighbours([0, 0]), [[1, 0], [0, 1], [1, 1]])
 		self.assertEqual(get_cell_neighbours([5, 5]), [[4, 5], [6, 5], [5, 4], [5, 6], [4, 4], [4, 6], [6, 4], [6, 6]])
+		self.assertEqual(get_cell_neighbours([7, 8]), [[6, 8], [8, 8], [7, 7], [7, 9], [6, 7], [6, 9], [8, 7], [8, 9]])
 
 
 
@@ -37,13 +38,15 @@ class Test_non_void_functions(unittest.TestCase):
 		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
 		[0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
-		[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+		[0, 0, 1, 1, 0, 0, 1, 1, 1, 0],
 		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 		]
 		cell_neighbours1 = [[0, 4], [2, 3], [1, 4], [1, 2], [0, 3], [0, 2], [2, 4], [2, 2]]
 		cell_neighbours2 = [[0, 1], [1, 1], [1, 0]]
 		cell_neighbours3 = [[0, 0], [0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1], [2, 2]]
 		cell_neighbours4 = [[7, 3], [7, 5], [6, 3], [6, 4], [6, 5], [8, 3], [8, 4], [8, 5]]
+		cell_neighbours5 = [[7, 7], [7, 9], [8, 7], [8, 8], [8, 9], [6, 7], [6, 8], [6, 9]]
+		#cell_neighbours6 = [[7, 7]]
 
 		# cell is board_array[1, 3]
 		self.assertEqual(number_of_neighbours_alive(board_array, cell_neighbours1), 4)

@@ -17,7 +17,7 @@ DIRECTIONS = (UP, DOWN, LEFT, RIGHT, f"{UP}-{LEFT}",
 
 def main():
 
-	input("Left click in a squre to turn the cell on or off.\n\
+	input("Left click in a square to turn the cell on or off.\n\
 When you are ready to run the simulation press space.\nYou can press space at any time to pause\
 \nIf you are paused, you can press the 'n' key to skip one step forward.\n\
 Now press Enter to start :)")
