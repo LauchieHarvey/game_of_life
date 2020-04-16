@@ -48,13 +48,14 @@ Now press Enter to start :)")
 				elif event.key == pygame.K_SPACE and paused:
 					paused = False
 
-				if paused and event.key == pygame.K_n:
+				elif paused and event.key == pygame.K_n:
 					board_array, generation_cell_count = update_board(board_array, generation_cell_count)
 
 			elif event.type == pygame.MOUSEBUTTONDOWN:
 				mouse_pos = pygame.mouse.get_pos()
 				board_array, generation_cell_count = change_cell_status(board_array, 
 					mouse_pos, generation_cell_count)
+				generation_cell_count_list[-1] = generation_cell_count
 
 		if not paused:
 			board_array, generation_cell_count = update_board(board_array, generation_cell_count)
