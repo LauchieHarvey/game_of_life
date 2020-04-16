@@ -1,5 +1,7 @@
 import pygame
 import random
+from matplotlib import pyplot as plt
+import numpy
 
 # CONSTANTS
 WIN_DIMENSIONS = (800, 800) # width, height
@@ -23,6 +25,7 @@ When you are ready to run the simulation press space.\nYou can press space at an
 Now press Enter to start :)")
 
 	board_array = init_board_array()
+	generation_cell_count_list = [0]
 
 	window = init_gui()
 
@@ -31,32 +34,50 @@ Now press Enter to start :)")
 	paused = True
 	game_running = True
 	while game_running:
+		generation_cell_count = generation_cell_count_list[-1]
 		key_pressed = False
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
-				running = False
+				game_running = False
 				pygame.quit()
-				quit()
+				break
+
 			elif event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_SPACE and not paused:
 					paused = True
 				elif event.key == pygame.K_SPACE and paused:
 					paused = False
+
 				if paused and event.key == pygame.K_n:
-					board_array = update_board(board_array)
+					board_array, generation_cell_count = update_board(board_array, generation_cell_count)
 
 			elif event.type == pygame.MOUSEBUTTONDOWN:
 				mouse_pos = pygame.mouse.get_pos()
-				board_array = change_cell_status(board_array, mouse_pos)
+				board_array, generation_cell_count = change_cell_status(board_array, 
+					mouse_pos, generation_cell_count)
 
 		if not paused:
-			board_array = update_board(board_array)
+			board_array, generation_cell_count = update_board(board_array, generation_cell_count)
+			generation_cell_count_list.append(generation_cell_count)
+			print(generation_cell_count_list)
 
-		window = update_gui(window, board_array)
-		pygame.display.update()
-		time.tick(5)
+		if game_running:
+			window = update_gui(window, board_array)
+			pygame.display.update()
+			time.tick(5)
+
+	y_values = numpy.array(generation_cell_count_list)
+	x_values = numpy.array([i for i in range(len(generation_cell_count_list))])
+	plt.xticks(x_values)
 
 
+	graph = plt.scatter(x_values, y_values)
+	plt.xlabel("Generations")
+	plt.ylabel("Number of Cells Alive")
+
+
+	plt.title("Number of Cells Alive by Generation")
+	plt.show()
 
 
 def init_gui():
@@ -68,20 +89,22 @@ def init_gui():
 	return window
 
 
-def change_cell_status(board_array, mouse_pos):
+def change_cell_status(board_array, mouse_pos, generation_cell_count):
 	# When the user clicks on a cell this function either kills or brings it to life.
 	mouse_row = mouse_pos[1] // CELL_WIDTH
 	mouse_column = mouse_pos[0] // CELL_HEIGHT
 	if board_array[mouse_row][mouse_column] == 1:
 		board_array[mouse_row][mouse_column] = 0
+		generation_cell_count -= 1
 	else:
 		board_array[mouse_row][mouse_column] = 1
+		generation_cell_count += 1
 
-	return board_array
+	return (board_array, generation_cell_count)
 
 
 
-def update_board(board_array):
+def update_board(board_array, generation_cell_count):
 	new_board_array = [row[:] for row in board_array]
 	
 	for row_num, row in enumerate(board_array):
@@ -90,12 +113,18 @@ def update_board(board_array):
 			num_live_neighbours = number_of_neighbours_alive(board_array, neighbours)
 
 			if num_live_neighbours not in [3, 2]:
+				# If the cell was previously alive decrement the generation cell count.
+				if new_board_array[row_num][column_num] == 1:
+					generation_cell_count -= 1
 				new_board_array[row_num][column_num] = 0
 
 			elif num_live_neighbours == 3:
+				# If the cell was previously dead, add one to the generation cell count.
+				if new_board_array[row_num][column_num] == 0:
+					generation_cell_count += 1 
 				new_board_array[row_num][column_num] = 1
 
-	return new_board_array
+	return (new_board_array, generation_cell_count)
 
 
 def number_of_neighbours_alive(board_array, cell_neighbours):
