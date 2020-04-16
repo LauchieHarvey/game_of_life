@@ -59,22 +59,20 @@ Now press Enter to start :)")
 		if not paused:
 			board_array, generation_cell_count = update_board(board_array, generation_cell_count)
 			generation_cell_count_list.append(generation_cell_count)
-			print(generation_cell_count_list)
 
 		if game_running:
 			window = update_gui(window, board_array)
 			pygame.display.update()
 			time.tick(5)
 
+
 	y_values = numpy.array(generation_cell_count_list)
 	x_values = numpy.array([i for i in range(len(generation_cell_count_list))])
 	plt.xticks(x_values)
 
-
 	graph = plt.scatter(x_values, y_values)
 	plt.xlabel("Generations")
 	plt.ylabel("Number of Cells Alive")
-
 
 	plt.title("Number of Cells Alive by Generation")
 	plt.show()
