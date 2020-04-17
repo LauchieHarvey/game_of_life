@@ -70,17 +70,10 @@ Now press Enter to start :)")
 			pygame.display.update()
 			time.tick(5)
 
+	# Now the user has quit the main game we show them the graph.
+	show_graph(generation_cell_count_list)
 
-	y_values = numpy.array(generation_cell_count_list)
-	x_values = numpy.array([i for i in range(len(generation_cell_count_list))])
-	plt.xticks(x_values)
 
-	graph = plt.scatter(x_values, y_values)
-	plt.xlabel("Generations")
-	plt.ylabel("Number of Cells Alive")
-
-	plt.title("Number of Cells Alive by Generation")
-	plt.show()
 
 
 def init_gui():
@@ -93,7 +86,7 @@ def init_gui():
 
 
 def change_cell_status(board_array, mouse_pos, generation_cell_count):
-	# When the user clicks on a cell this function either kills or brings it to life.
+	"""When the user clicks on a cell this function either kills or brings it to life."""
 
 	mouse_row = mouse_pos[1] // CELL_WIDTH
 	mouse_column = mouse_pos[0] // CELL_HEIGHT
@@ -229,6 +222,25 @@ def update_gui(window, board_array):
 	pygame.draw.line(window, WHITE, (0, WIN_DIMENSIONS[1] - 1), (WIN_DIMENSIONS[0], WIN_DIMENSIONS[1] - 1), 2)
 	return window
 
+
+def show_graph(generation_cell_count_list):
+	""" Generates values for x axis and plots it on a graph
+
+			Parameters:
+
+			Returns:
+				Void.
+	"""
+	y_values = numpy.array(generation_cell_count_list)
+	x_values = numpy.array([i for i in range(len(generation_cell_count_list))])
+	plt.xticks(x_values)
+
+	graph = plt.scatter(x_values, y_values)
+	plt.xlabel("Generations")
+	plt.ylabel("Number of Cells Alive")
+
+	plt.title("Number of Cells Alive by Generation")
+	plt.show()
 
 if __name__ == "__main__":
 	main()
