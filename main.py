@@ -4,20 +4,26 @@ from matplotlib import pyplot as plt
 import numpy
 
 # CONSTANTS
+
+# You can change these to modify user experience:
+GRID_SIZE = 50
+INITIAL_CELL_COUNT = 0
 WIN_DIMENSIONS = (800, 800) # width, height
 WHITE = (140, 140, 140)
 BLACK = (0, 0, 0)
-GRID_SIZE = 50
-INITIAL_CELL_COUNT = 0
+
+# Leave these constants alone unless you know what you're doing:
 CELL_WIDTH = int(WIN_DIMENSIONS[0] / GRID_SIZE)
 CELL_HEIGHT = int(WIN_DIMENSIONS[1] / GRID_SIZE)
 UP, DOWN, LEFT, RIGHT = "up", "down", "left", "right"
 DIRECTIONS = (UP, DOWN, LEFT, RIGHT, f"{UP}-{LEFT}", 
 	f"{UP}-{RIGHT}", f"{DOWN}-{LEFT}", f"{DOWN}-{RIGHT}")
+
 # ^CONSTANTS
 
 
 def main():
+	""" controls flow of the pygame gui, game algorithm and console output."""
 
 	input("Left click in a square to turn the cell on or off.\n\
 When you are ready to run the simulation press space.\nYou can press space at any time to pause\
@@ -26,9 +32,7 @@ Now press Enter to start :)")
 
 	board_array = init_board_array()
 	generation_cell_count_list = [0]
-
 	window = init_gui()
-
 	time = pygame.time.Clock()
 
 	paused = True
@@ -80,7 +84,7 @@ Now press Enter to start :)")
 
 
 def init_gui():
-
+	""" Initialises the Pygame graphical user interface and returns it."""
 	window = pygame.display.set_mode(WIN_DIMENSIONS)
 	pygame.display.set_caption("Game of Life :)")
 	window.fill(BLACK)
@@ -90,6 +94,7 @@ def init_gui():
 
 def change_cell_status(board_array, mouse_pos, generation_cell_count):
 	# When the user clicks on a cell this function either kills or brings it to life.
+
 	mouse_row = mouse_pos[1] // CELL_WIDTH
 	mouse_column = mouse_pos[0] // CELL_HEIGHT
 	if board_array[mouse_row][mouse_column] == 1:
@@ -103,7 +108,16 @@ def change_cell_status(board_array, mouse_pos, generation_cell_count):
 
 
 
+
 def update_board(board_array, generation_cell_count):
+	""" The main algorithm determining which cells stay alive and which die.
+
+			Parameters:
+				board_array (list(list(int, int...))): The 2D list representing the grid of cells
+
+			Returns:
+				list(list(int, int...)): The updated board_array.
+	"""
 	new_board_array = [row[:] for row in board_array]
 	
 	for row_num, row in enumerate(board_array):
@@ -127,10 +141,20 @@ def update_board(board_array, generation_cell_count):
 
 
 def number_of_neighbours_alive(board_array, cell_neighbours):
+	""" Returns the number of live cell neighbours of the given cell.
+
+			Parameters:
+				board_array (list(list(int, int...))): The 2D list representing the grid of cells
+				cell_neighbours (list(int, int...)): A list of integers representing the indexes of
+				cells surrounding a given cell.
+
+			Returns:
+				int: The total number of neighbours that are alive.
+	"""
 	return sum(1 for cell in cell_neighbours if board_array[cell[0]][cell[1]] == 1)
 
 
-def get_cell_neighbours(cell_index_array): #IMPLEMENT TESTS FOR THIS
+def get_cell_neighbours(cell_index_array):
 	""" Returns a 2D array of the neighbours indexes.
 
 			Parameters: 
@@ -177,6 +201,9 @@ def index_at_direction(cell_index_array, direction):
 
 
 def init_board_array():
+	""" Not currently being used. A function which generates a randomized starting grid.
+	based off the number of the initial cell count constant.
+	"""
 	board_array = [[0 for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
 	for cell in range(INITIAL_CELL_COUNT):
 		board_array[random.randint(0, GRID_SIZE - 1)][random.randint(0, GRID_SIZE - 1)] = 1
@@ -185,6 +212,7 @@ def init_board_array():
 
 
 def update_gui(window, board_array):
+	""" Changes the gui to reflect the current state of the board_array list."""
 	for row_index, row_value in enumerate(board_array):
 		for column_index, column_value in enumerate(row_value):
 			if board_array[row_index][column_index] == 1:
