@@ -19,7 +19,7 @@ UP, DOWN, LEFT, RIGHT = "up", "down", "left", "right"
 DIRECTIONS = (UP, DOWN, LEFT, RIGHT, f"{UP}-{LEFT}", 
 	f"{UP}-{RIGHT}", f"{DOWN}-{LEFT}", f"{DOWN}-{RIGHT}")
 
-# ^CONSTANTS
+# ^CONSTANTS^
 
 
 def main():
@@ -227,6 +227,7 @@ def show_graph(generation_cell_count_list):
 	""" Generates values for x axis and plots it on a graph
 
 			Parameters:
+				generation_cell_count_list (list(int)): The list of cell counts, one for each generation.
 
 			Returns:
 				Void.
