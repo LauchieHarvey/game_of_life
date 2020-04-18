@@ -236,7 +236,7 @@ def show_graph(generation_cell_count_list):
 	x_values = numpy.array([i for i in range(len(generation_cell_count_list))])
 	plt.xticks(x_values)
 
-	graph = plt.scatter(x_values, y_values)
+	graph = plt.plot(x_values, y_values)
 	plt.xlabel("Generations")
 	plt.ylabel("Number of Cells Alive")
 
