@@ -86,7 +86,18 @@ def init_gui():
 
 
 def change_cell_status(board_array, mouse_pos, generation_cell_count):
-	"""When the user clicks on a cell this function either kills or brings it to life."""
+	""" When the user clicks on a cell this function either kills or brings it to life.
+			
+			Parameters:
+				board_array (list(list(int...))): The 2D list that holds the 
+				dead or alive status of each cell
+				mouse_pos (tuple(int, int)): The coordinate of the mouse on the pygame window (x, y)
+				generation_cell_count (int): The number of cells alive in the generation.
+
+			Returns:
+				board_array (list(list(int...))): The updated 2D list that holds the status of each cell
+				(int): The updated number of cells alive in the generation.
+	"""
 
 	mouse_row = mouse_pos[1] // CELL_WIDTH
 	mouse_column = mouse_pos[0] // CELL_HEIGHT
@@ -106,11 +117,15 @@ def update_board(board_array, generation_cell_count):
 	""" The main algorithm determining which cells stay alive and which die.
 
 			Parameters:
-				board_array (list(list(int, int...))): The 2D list representing the grid of cells
+				board_array (list(list(int...))): The 2D list that holds the 
+				dead or alive status of each cell
+				generation_cell_count (int): The number of cells alive in the generation.
 
 			Returns:
 				list(list(int, int...)): The updated board_array.
+				(int): The updated number of cells alive in the generation.
 	"""
+	# Below is required to create a new variable all together instead of just a pointer to the same variable
 	new_board_array = [row[:] for row in board_array]
 	
 	for row_num, row in enumerate(board_array):
