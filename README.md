@@ -9,8 +9,8 @@ The game allows you to select the cells that are alive at any point by pausing.
 
 When the user quits the main simulation they will see a graph of the number of live cells over the number of generations.
 
-# Dependencies
-python 3.6
-pygame
-matplotlib
-numpy
+## Dependencies
+python 3.6  
+pygame  
+matplotlib  
+numpy  
